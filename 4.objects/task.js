@@ -10,12 +10,14 @@ Student.prototype.setSubject = function (subjectName) {
 }
 
 Student.prototype.addMarks = function (...marksToAdd) {
+// вариант с условием поиска undefined
 /*     if (this.marks === undefined) { 
         return;
     } else {
         this.marks.push(...marksToAdd);
     } */
 
+// вариант с условием поиска НЕ undefined
     if (this.marks !== undefined) { 
         this.marks.push(...marksToAdd);
     }
@@ -34,7 +36,7 @@ Student.prototype.getAverage = function () {
                 return acc;
             }
         })
-    }    
+    }
 }
 
 Student.prototype.exclude = function (reason) {

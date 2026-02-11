@@ -14,9 +14,9 @@ class PrintEditionItem {
     };
 
     set state(state) {
-        if(state < 0) {
+        if (state < 0) {
             this._state = 0;
-        } else if(state > 100) {
+        } else if (state > 100) {
             this._state = 100;
         } else {
             this._state = state;
@@ -73,7 +73,7 @@ class Library {
     }
 
     addBook(book) {
-        if(book.state > 30) {
+        if (book.state > 30) {
             this.books.push(book);
         }
     };
@@ -90,7 +90,7 @@ class Library {
     giveBookByName(bookName) {
         let deleteBook = this.books.findIndex(book => book.name === bookName);
 
-        if(deleteBook === -1) {
+        if (deleteBook === -1) {
             return null;
         } else {
             return this.books.splice([deleteBook], 1)[0];
@@ -101,47 +101,47 @@ class Library {
 // Задача № 3 - решение
 
 class Student {
-    constructor(name, gender, age) {
+    constructor(name) {
     this.name = name;
-    this.gender = gender;
-    this.age = age;
     this.marks = {};
-    }
+    };
 
     addMark(mark, subjectName) {
-        if (this.marks.subject !== subjectName) {
-            this.marks = {
-                subjectName: []
-            };
-        } else if (mark > 5 || mark < 2 || typeof mark !== "number") {
+        if (mark > 5 || mark < 2 || typeof mark !== "number") {
             return;
         } else {
-            let index = this.marks.findIndex(item => item.subject === subjectName);
-
-            if (index !== -1) {
-                this.marks[index].marks.push(mark);
+            if (this.marks?.[subjectName] === undefined) {
+                this.marks[subjectName] = [];
+                this.marks[subjectName].push(mark);
             } else {
-            this.marks.push({
-                subject: subjectName,
-                marks: [mark]
-            });
-            };
+                this.marks[subjectName].push(mark);
+            }
         }
     };
 
     getAverageBySubject(subjectName) {
-        let index = this.marks.findIndex(item => item.subject === subjectName);
-
-        if (index === -1) {
-            return "Несуществующий предмет";
+        if (this.marks?.[subjectName] === undefined) {
+            return 0;
         } else {
-            return this.marks[index].marks.reduce((acc, item) => acc + item, 0) / this.marks[index].marks.length;
+            return this.marks[subjectName].reduce((acc, mark) => acc + mark, 0) / this.marks[subjectName].length;
         }
     };
 
     getAverage() {
-        let allMarks = [];
-        this.marks.forEach(item => allMarks.push(...item.marks));
-        return allMarks.reduce((acc, item) => acc + item, 0) / allMarks.length;
+        const allSubjects = Object.keys(this.marks);
+
+        if (allSubjects.length < 1) {
+            return 0;
+        } else {
+            return allSubjects.reduce((acc, subject, index, arr) => {
+                acc += this.getAverageBySubject(subject);
+
+                if (index === arr.length - 1) {
+                    return acc / arr.length;
+                } else {
+                    return acc;
+                }
+            }, 0)
+        }
     };
 }

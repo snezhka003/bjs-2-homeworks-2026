@@ -7,14 +7,14 @@ function cachingDecoratorNew(func) {
         let objectInCache = cache.find(item => item.hash === hash);
 
         if (objectInCache) {
-        return "Из кеша: " + objectInCache.value; 
+            return "Из кеша: " + objectInCache.value; 
         }
 
         let result = func(...args);
         cache.push({hash, value: result});
 
         if (cache.length > 5) { 
-        cache.shift();
+            cache.shift();
         }
 
         return "Вычисляем: " + result;
@@ -44,5 +44,6 @@ function debounceDecoratorNew(func, delay) {
             wrapper.count++;
         }, delay);
     }
+    
     return wrapper;
 }
